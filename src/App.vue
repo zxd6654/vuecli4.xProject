@@ -2,8 +2,9 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/cubeui">cubeui</router-link>
+      <router-link to="/fastclick">fastclick</router-link> |
+      <router-link to="/cubeui">cubeui</router-link> |
+      <router-link to="/mintui">mintui</router-link> 
     </div>
     <router-view/>
   </div>
