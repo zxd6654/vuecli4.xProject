@@ -24,3 +24,11 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 cube-ui 的使用
+
+fastclick的使用
+
+minitui的使用
+
+lib-flexible结合postcss-px2rem-exclude px转换rem
+
+移动端调试工具vconsole
