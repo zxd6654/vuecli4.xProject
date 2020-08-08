@@ -6,6 +6,7 @@
       然后在main.js里面添加上 import FastClick from 'fastclick'
       FastClick.attach(document.body);
     </p>
+    <router-view/>
   </div>
 </template>
 

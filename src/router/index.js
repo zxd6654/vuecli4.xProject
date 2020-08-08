@@ -23,14 +23,20 @@ const routes = [
     path: "/cubeui",
     name: "Cubeui",
     component: () =>
-      import(/* webpackChunkName: "cubeui" */ "@/views/Cubeui.vue"),
+      import(/* webpackChunkName: "cubeui" */ "@/views/cubeui/Cubeui.vue"),
   },
   {
-    path:"/Mintui",
-    name:"mintui",
-    component:()=>
-    import(/* webpackChunkName: "mintui" */ "@/views/Mintui.vue")
-  }
+    path: "/scroll",
+    name: "Scroll",
+    component: () =>
+      import(/* webpackChunkName: "scroll" */ "@/views/cubeui/Scroll.vue"),
+  },
+  {
+    path: "/Mintui",
+    name: "mintui",
+    component: () =>
+      import(/* webpackChunkName: "mintui" */ "@/views/mintui/Mintui.vue"),
+  },
 ];
 
 const router = new VueRouter({
