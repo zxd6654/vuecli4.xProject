@@ -30,6 +30,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
+    "terser-webpack-plugin": "^4.0.0",
     "vue-cli-plugin-cube-ui": "~0.2.5",
     "vue-template-compiler": "^2.6.11"
   },
