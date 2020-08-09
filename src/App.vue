@@ -4,7 +4,9 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/fastclick">fastclick</router-link> |
       <router-link to="/cubeui">cubeui</router-link> |
-      <router-link to="/mintui">mintui</router-link> 
+      <router-link to="/mintui">mintui</router-link> |
+      <router-link to="/scroll">cube-scroll</router-link> |
+      <router-link to="/i18n">i18n</router-link>
     </div>
     <router-view/>
   </div>

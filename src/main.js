@@ -22,10 +22,24 @@ import Vconsole from "vconsole";
 let vConsole = new Vconsole();
 Vue.use(vConsole);
 
+//国际化
+import VueI18n from "vue-i18n";
+import zh from './lang/zn'
+import en from './lang/en'
+Vue.use(VueI18n);
+let i18n = new VueI18n({
+  locale: "zh-CN", //语言识别
+  messages: {
+    "zh-CN": zh,
+    "en-US":en,
+  },
+});
+
 Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
+  i18n,
   render: (h) => h(App),
 }).$mount("#app");

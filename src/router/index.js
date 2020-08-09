@@ -32,10 +32,16 @@ const routes = [
       import(/* webpackChunkName: "scroll" */ "@/views/cubeui/Scroll.vue"),
   },
   {
-    path: "/Mintui",
-    name: "mintui",
+    path: "/mintui",
+    name: "Mintui",
     component: () =>
       import(/* webpackChunkName: "mintui" */ "@/views/mintui/Mintui.vue"),
+  },
+  {
+    path: "/i18n",
+    name: "I18n",
+    component: () =>
+      import(/* webpackChunkName: "i18n" */ "@/views//I18n.vue"),
   },
 ];
 
