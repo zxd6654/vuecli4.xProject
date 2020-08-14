@@ -13,9 +13,9 @@ Vue.use(Mint);
 import "mint-ui/lib/style.css";
 
 //rem布局
-import "lib-flexible";
-// import RemConfig from "./config/rem";
-// RemConfig()
+// import "lib-flexible";
+import RemConfig from "./config/rem";
+RemConfig()
 
 //移动端调试日志
 import Vconsole from "vconsole";

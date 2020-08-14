@@ -1,7 +1,7 @@
 module.exports = {
   plugins: {
     "postcss-px2rem-exclude": {
-      remUnit: 37.5,
+      remUnit: 100,
       exclude: /node_modules|otherFolder/i,
     },
   },

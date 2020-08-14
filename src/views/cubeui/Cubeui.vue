@@ -3,11 +3,6 @@
     <cube-button @click="showDialog">Dialog-alert</cube-button>
     <cube-button @click="showBtn">Dialog-btn</cube-button>
 
-    <cube-checkbox-group
-      v-model="checkList"
-      :options="options"
-    ></cube-checkbox-group>
-
     <cube-button :inline="true" @click="zhLang">zh(切换中文)</cube-button>&nbsp;
     <cube-button :inline="true" @click="enLang">en(切换英文)</cube-button>
 
@@ -19,20 +14,6 @@
 import { Locale } from "cube-ui";
 import enUSmessages from "cube-ui/src/locale/lang/en-US";
 export default {
-  data() {
-    return {
-      checkList: ["1", "2"],
-      options: [
-        "1",
-        "2",
-        {
-          label: "多选按钮3",
-          value: "3",
-          disabled: true,
-        },
-      ],
-    };
-  },
   methods: {
     showDialog() {
       this.$createDialog({
