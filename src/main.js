@@ -19,8 +19,13 @@ RemConfig()
 
 //移动端调试日志
 import Vconsole from "vconsole";
-let vConsole = new Vconsole();
-Vue.use(vConsole);
+//写法一
+// let vConsole = new Vconsole();
+// Vue.use(vConsole);
+
+//写法二
+new Vconsole();
+
 
 //国际化
 import VueI18n from "vue-i18n";
