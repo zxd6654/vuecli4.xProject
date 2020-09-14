@@ -43,6 +43,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "i18n" */ "@/views//I18n.vue"),
   },
+  {
+    path: "/verifycode",
+    name: "VerifyCodeDemo",
+    component: () =>
+      import(/* webpackChunkName: "verifycode" */ "@/views//VerifyCodeDemo.vue"),
+  },
 ];
 
 const router = new VueRouter({
