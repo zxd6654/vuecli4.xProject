@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/fastclick">fastclick</router-link> |
-      <router-link to="/cubeui">cubeui</router-link> |
-      <router-link to="/mintui">mintui</router-link> |
-      <router-link to="/scroll">cube-scroll</router-link> |
-      <router-link to="/i18n">i18n</router-link>
+      <router-link
+        v-for="item in $router.options.routes"
+        :key="item.name"
+        :to="item.path"
+        >{{ item.name }} | </router-link
+      >
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 

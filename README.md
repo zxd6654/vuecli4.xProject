@@ -32,3 +32,11 @@ minitui的使用
 lib-flexible结合postcss-px2rem-exclude px转换rem
 
 移动端调试工具vconsole
+
+密码键盘
+
+数字键盘
+
+短信验证码
+
+vue-pdf插件的使用

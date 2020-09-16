@@ -40,14 +40,21 @@ const routes = [
   {
     path: "/i18n",
     name: "I18n",
-    component: () =>
-      import(/* webpackChunkName: "i18n" */ "@/views//I18n.vue"),
+    component: () => import(/* webpackChunkName: "i18n" */ "@/views//I18n.vue"),
   },
   {
     path: "/verifycode",
     name: "VerifyCodeDemo",
     component: () =>
-      import(/* webpackChunkName: "verifycode" */ "@/views//VerifyCodeDemo.vue"),
+      import(
+        /* webpackChunkName: "verifycode" */ "@/views//VerifyCodeDemo.vue"
+      ),
+  },
+  {
+    path: "/vuepdf",
+    name: "VuePdf",
+    component: () =>
+      import(/* webpackChunkName: "vuepdf" */ "@/views//VuePdf.vue"),
   },
 ];
 

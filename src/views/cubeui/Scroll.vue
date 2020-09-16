@@ -1,7 +1,7 @@
 <template>
   <div slot="content" class="scroll-wrapper">
     <div class="demo">
-      <div class="title">Demo</div>
+      <div class="title">scroll-demo</div>
       <div class="scroll-list-wrap">
         <cube-scroll
           ref="scroll"
@@ -180,6 +180,8 @@ export default {
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+.title
+   font-size:30px
 .scroll-wrapper
   .cube-pulldown-wrapper
     .before-trigger
@@ -195,6 +197,7 @@ export default {
     .after-trigger
       .refresh-text
         color: grey
+        font-size: 30px
 .scroll-list-wrap
   height: 350px
   border: 1px solid rgba(0, 0, 0, 0.1)
@@ -216,16 +219,16 @@ export default {
       flex: 1
       .name
         margin: 2px 0 8px 0
-        height: 14px
-        line-height: 14px
+        height: 24px
+        line-height: 24px
         font-size: 14px
         color: rgb(7, 17, 27)
       .description, .extra
-        line-height: 10px
+        line-height: 24px
         font-size: 10px
         color: rgb(147, 153, 159)
       .description
-        line-height: 12px
+        line-height: 24px
         margin-bottom: 8px
       .extra
         .count

@@ -9,8 +9,12 @@ import FastClick from "fastclick";
 FastClick.attach(document.body);
 
 import Mint from "mint-ui";
-Vue.use(Mint);
 import "mint-ui/lib/style.css";
+Vue.use(Mint);
+
+import Element from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(Element);
 
 //rem布局
 // import "lib-flexible";
