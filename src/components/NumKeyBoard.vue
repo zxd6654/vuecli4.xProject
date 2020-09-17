@@ -1,249 +1,242 @@
-<template>
-  <div id="abc-num-board">
-    <div :class="[{ hide: !isShow }, 'key-container']">
-      <div class="error-down" @click="hideBoard">
-        <img src="@/assets/logo.png" alt="" />
-      </div>
-      <div class="input-area" id="input-area" disabled>
-        <div class="row" v-for="(item, index) in numArr" :key="index">
-          <p
-            class="num-item"
-            v-for="num in item"
-            :key="num"
-            @touchstart="getValue(num)"
-          >
-            {{ num }}
-          </p>
-        </div>
-        <div class="row">
-          <p
-            class="num-item"
-            v-if="!(hidePoint || dotIsShow)"
-            @touchstart="getValue('.')"
-          >
-            .
-          </p>
-          <p class="num-item grey" v-if="hidePoint || dotIsShow"></p>
-          <p class="num-item" @touchstart="getValue('0')">0</p>
-          <div
-            :class="[{ grey: hidePoint || dotIsShow }, 'num-item', 'delete']"
-            id="corss"
-            @touchstart="deleteElementLongClick"
-            @touchend="emptyTime"
-          >
-            <img src="@/assets/logo.png" alt="del" />
-          </div>
-        </div>
-        <div class="greyBar"></div>
-      </div>
-    </div>
-  </div>
+<!--密码键盘，只能输入6位数字-->
+<template lang="pug">
+.keyboard(:class="{ isIos: isIOS }", v-show="isShowChild")
+  .safe
+    .tip 安全验证
+    .password {{ sercet }}
+  .operator
+    .btn.sure(@click="clickSure", :class="{ sure_canClick: isCanClick }") 确定
+    .btn.cancel(@click="clickCancel") 取消
+  .num_board
+    .row
+      button(@click="clickNum('1')") 1
+      button.center(@click="clickNum('2')") 2
+      button(@click="clickNum('3')") 3
+    .row
+      button(@click="clickNum('4')") 4
+      button.center(@click="clickNum('5')") 5
+      button(@click="clickNum('6')") 6
+    .row
+      button(@click="clickNum('7')") 7
+      button.center(@click="clickNum('8')") 8
+      button(@click="clickNum('9')") 9
+    .row
+      button.num_null
+      button.center(@click="clickNum('0')") 0
+      button.num_delete(@click="clickNum('X')")
+        img.icon(src="../assets/delete.png")
 </template>
 
 <script>
-import { clearTimeout, setTimeout } from "timers";
-// import FastClick from 'fastclick';//如果全局有，这里就不用再加了
 export default {
   props: {
-    dotIsShow: Boolean,
+    // 接受调用处传进来的值
+    isShowKeyBoard: {
+      // 是否显示键盘
+      required: true,
+      default() {
+        return false; // 默认不显示
+      },
+    },
   },
   data() {
     return {
-      numArr: [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
-      ],
-      isShow: false,
-      refObject: {},
-      refObjectOld: {},
-      hidePoint: false,
-      loop: null,
-      loop2: [],
-      len: "",
-      beforetime: "",
-      aftertime: "",
+      isIOS: false, // 判断当前页面是否跑在ios平台，因为ios平台兼容性问题，要特殊处理
+      isCanClick: false, // 如果不可点击'确定'的按钮样式更改
+      password: "", //(真正的密码)
+      sercet: "", // 密文密码(******)
+
+      // 因为父组件传递进来的属性不支持进行双向绑定，需要创建一个副本isShowChild来进行双向绑定操作。
+      isShowChild: this.isShowKeyBoard,
     };
   },
-  mounted() {
-    this.$on("getInputVm", function(obj) {
-      this.$outsideClick();
-      this.refObject = obj;
-      this.isShow = true;
-      this.hidePoint = this.refObject.hidePoint;
-    });
+  created() {
+    // 在html渲染前先拿isIOS的值
+    let u = navigator.userAgent;
+    this.isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+
+    this.clickNum("X"); // 清空数据，恢复默认值
   },
   watch: {
-    refObject() {
-      if (Object.keys(this.refObjectOld).length === 0) {
-        this.refObjectOld = this.refObject;
+    // 动态监听父布局是否有改动了传进来的这个值
+    isShowKeyBoard: {
+      handler(newValue) {
+        this.isShowChild = newValue; // 有改动则重新赋值给副本
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
+  methods: {
+    clickCancel() {
+      // 因为子组件直接改了副本后  第二次父组件再改  子组件的watch监听不到了，所以这里直接改父控件调用处的原变量，让那边去触发watch，这样第二次还能触发。
+      this.$emit("onShowChange", false);
+      this.clickNum("X"); // 清空密码
+    },
+    clickSure() {
+      if (this.password.length === 6) {
+        // 密码长度对了，返回密码，这里也可以调用服务进行验证，最后返回验证的值。
+        console.log(this.password);
+        this.$emit("onCheckPassword", this.password);
       } else {
-        let _that = this;
-        this.refObjectOld.clearCursorFlash();
-        setTimeout(function() {
-          _that.refObject.clearFlag = _that.refObjectOld.clearFlag;
-          _that.refObject.clearFlag = _that.refObjectOld.clearDistance;
-          _that.refObject.clearFlag = _that.refObject;
-        }, 200);
+        this.$toast("请输入6位数密码"); // 请输入6位数密码
       }
     },
-    methods: {
-      deleteElementClick() {
-        this.refObject.deleteElement();
-      },
-      //长按延时删除
-      deleteElementLongClick() {
-        let _that = this;
-        this.len = this.refObject.getInputStr().length;
-        clearTimeout(this.loop);
-        this.beforetime = new Date().getTime();
-        for (let i = 0; i < this.loop2.length; i++) {
-          clearTimeout(this.loop2[i]);
-        }
-        this.loop = setTimeout(
-          function() {
-            //延时删除
-            for (let i = 0; i < _that.len; i++) {
-              (function(i) {
-                _that.loop2.push(
-                  setTimeout(() => _that.refObject.deleteElement(), 80 * i)
-                );
-              })(i);
-            }
-          }.bind(this),
-          500
-        );
-      },
-      emptyTime() {
-        this.aftertime = new Date().getTime();
-        //短按抬起删除
-        if (this.aftertime - this.beforetime < 500) {
-          this.deleteElementClick();
-        }
-        for (let i = 0; i < this.len; i++) {
-          clearTimeout(this.loop2[i]);
-        }
-        clearTimeout(this.loop);
-        this.loop2 = [];
-      },
-      hideBoard() {
-        let _that = this;
-        this.isShow = false;
-        if (document.getElementsByClassName("numInputNewDiv")[0]) {
-          let numKeyBoard = document.getElementsByClassName(
-            "numInputNewDiv"
-          )[0];
-          numKeyBoard.remove();
-          window.scrollTo(0, document.documentElement.offsetHeight);
-        }
-        this.refObject.clearCursorFlash();
-        this.refObjectOld();
-        setTimeout(function() {
-          _that.refObject = {};
-        }, 200);
-      },
-      showKeyBoard() {
-        let _that = this;
-        setTimeout(function() {
-          _that.isShow = true;
-        }, 0);
-      },
-      getValue(val) {
-        this.refObject.getValue(val);
-      },
-      outsideClick() {
-        let _that = this;
-        let tagBody = document.getElementsByTagName("body")[0];
-        let length = document.getElementsByClassName("am-list-item");
-        let listNumInput = document.getElementsByClassName("am-list-item")[0];
-        let numKeyBoard = document.getElementById("abc-list-keyboard");
-
-        if (document.getElementsByClassName("am-list-item")[1]) {
-          let listNumInput2 = document.getElementsByClassName(
-            "am-list-item"
-          )[1];
-          tagBody.addEventListener("click", function(evt) {
-            if (_that.isShow === true) {
-              if (
-                !numKeyBoard.contains(evt.target) &&
-                !listNumInput.contains(evt.target) &&
-                !listNumInput2.contains(evt.target)
-              ) {
-                if (document.getElementsByClassName("numInputNewDiv")[0]) {
-                  let numBoard = document.getElementsByClassName(
-                    "numInputNewDiv"
-                  )[0];
-                  numBoard.remove();
-                  window.scrollTo(0, document.documentElement.offsetHeight);
-                }
-                _that.isShow = false;
-                _that.refObject.clearCursorFlash();
-                _that.refObjectOld = {};
-                setTimeout(function() {
-                  _that.refObject = {};
-                }, 200);
-              }
-            }
-          });
+    clickNum(num) {
+      console.log(num);
+      if (num != "X") {
+        if (this.sercet === "请输入交易密码") {
+          this.password = "";
+          this.password += num;
+          this.sercet = "";
+          this.sercet += "*";
+        } else if (this.password.length === 6) {
+          this.$toast("已经输入6位数了");
         } else {
-          tagBody.addEventListener("click", function(evt) {
-            if (_that.isShow === true) {
-              if (
-                !numKeyBoard.contains(evt.target) &&
-                !listNumInput.contains(evt.target)
-              ) {
-                if (document.getElementsByClassName("numInputNewDiv")[0]) {
-                  let numBoard = document.getElementsByClassName(
-                    "numInputNewDiv"
-                  )[0];
-                  numBoard.remove();
-                  window.scrollTo(0, document.documentElement.offsetHeight);
-                }
-                _that.isShow = false;
-                _that.refObject.clearCursorFlash();
-                _that.refObjectOld = {};
-                setTimeout(function() {
-                  _that.refObject = {};
-                }, 200);
-              }
-            }
-          });
+          this.password += num;
+          this.sercet += "*";
+          if (this.password.length === 6) {
+            this.isCanClick = true;
+          }
         }
-      },
+      } else {
+        // 清空密码和相关属性恢复
+        this.isCanClick = false;
+        this.password = "";
+        this.sercet = "请输入交易密码";
+      }
     },
   },
 };
 </script>
 
-<style lang="less" scope>
-@white: #ffffff;
-@font-black: #333333;
+<style scoped lang="stylus">
+.keyboard {
+  background: white;
+  width: 100%;
+  height: 355px;
+  border-radius: 8px 8px 0px 0px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
 
-* {
-  user-select: none;
-}
-.num-item {
-  touch-action: manipulation; //浏览器只允许进行滚动和持续缩放操作
-}
-
-#abc-num-keyboard{
-
-  .key-container.hide{
-    height: 0;
-    border-top: 0;
-  }
-  .key-container{
-    background-color: #d0d4dc;
-    position: fixed;
-    z-index:9998;
-    bottom: 0;
-    width: 100%;
-    font-size: 0.5rem;
-    color: @font-font-black;
-    margin-left: -0.3px;
-    margin-right: -0.3px;
-    height: 5.7rem;
+  &.isIos {
+    bottom: 48px;
   }
 
+  .safe {
+    height: 52px;
+    background: #E5EBF7;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 10px 12px;
+    padding: 16px 14px;
+
+    .tip {
+      font-size: 14px;
+      line-height: 20px;
+      text-align: left;
+      color: #333333;
+    }
+
+    .password {
+      color: #999999;
+      font-size: 14px;
+      line-height: 20px;
+      text-align: right;
+      opacity: 1;
+    }
+  }
+
+  .operator {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-bottom: 20px;
+
+    .btn {
+      width: 80px;
+      height: 32px;
+      font-size: 14px;
+      line-height: 32px;
+      display: flex;
+      justify-content: center;
+
+      &.cancel {
+        border-radius: 4px;
+        border: 1px solid rgba(68, 114, 197, 1);
+        color: #4472C5;
+      }
+
+      &.sure {
+        background: rgba(144, 171, 220, 1);
+        border-radius: 4px;
+        color: #D2DDF1;
+        margin-right: 10px;
+        margin-left: 20px;
+
+        &.sure_canClick {
+          background: #4472C5;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .num_board {
+    background: #D2D5DB;
+    height: 100%;
+    padding: 6px;
+
+    .row {
+      margin-bottom: 7px;
+      display: flex;
+      flex-direction: row;
+
+      button {
+        width: 117px;
+        height: 46px;
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0px 0 0px 0px rgba(132, 134, 136, 1);
+        border-radius: 5px;
+        text-align: center;
+        font-size: 25px;
+        color: #000000;
+        display: flex;
+        justify-content: center;
+        line-height: 46px;
+
+        &.center {
+          margin: 0 6px;
+        }
+      }
+
+      .num_null {
+        width: 117px;
+        height: 46px;
+        float: right;
+        margin: 0;
+        padding: 0;
+        background-color: #D2D5DB;
+        border: none;
+        outline: none;
+      }
+
+      .num_delete {
+        width: 117px;
+        height: 46px;
+        background: #D2D5DB;
+        position: relative;
+
+        .icon {
+          position: absolute;
+          width: 23px;
+          height: 18px;
+          top: 30%;
+          right: 40%;
+        }
+      }
+    }
+  }
 }
 </style>

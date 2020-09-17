@@ -44,10 +44,10 @@ const routes = [
   },
   {
     path: "/verifycode",
-    name: "VerifyCodeDemo",
+    name: "VerifyCode",
     component: () =>
       import(
-        /* webpackChunkName: "verifycode" */ "@/views/VerifyCodeDemo.vue"
+        /* webpackChunkName: "verifycode" */ "@/views/VerifyCode.vue"
       ),
   },
   {
@@ -61,6 +61,12 @@ const routes = [
     name: "VueCreateApi",
     component: () =>
       import(/* webpackChunkName: "vuecreateapi" */ "@/views/VueCreateApi.vue"),
+  },
+  {
+    path: "/numkeyboard",
+    name: "NumKeyBoard",
+    component: () =>
+      import(/* webpackChunkName: "numkeyboard" */ "@/views/NumKeyBoard.vue"),
   },
 ];
 
