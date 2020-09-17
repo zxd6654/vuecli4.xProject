@@ -1,44 +1,10 @@
 <template>
-  <div class="code">
-    <input
-      id="first"
-      class="inputStyle"
-      v-model="code[0]"
-      style="border-top-left-radius: 12px;
-				border-bottom-left-radius: 12px;"
-      type="text"
-    />
-    <input
-      id="second"
-      class="inputStyle"
-      v-model="code[1]"
-      style="border-left:1px solid #c6c6c6;"
-      type="text"
-    />
-    <input
-      id="third"
-      class="inputStyle"
-      v-model="code[2]"
-      style="border-left:1px solid #c6c6c6;"
-      type="text"
-    />
-    <input
-      id="forth"
-      class="inputStyle"
-      v-model="code[3]"
-      style="border-left:1px solid #c6c6c6;"
-      type="text"
-    />
-    <input
-      id="fifth"
-      class="inputStyle"
-      v-model="code[4]"
-      style="border-top-right-radius: 12px;
-				border-bottom-right-radius: 12px;
-				border-left:1px solid #c6c6c6;"
-      maxlength="1"
-      type="text"
-    />
+  <div class="codes">
+    <input id="first" v-model="code[0]" type="text" />
+    <input id="second" v-model="code[1]" type="text" />
+    <input id="third" v-model="code[2]" type="text" />
+    <input id="forth" v-model="code[3]" type="text" />
+    <input id="fifth" v-model="code[4]" maxlength="1" type="text" />
   </div>
 </template>
 
@@ -52,7 +18,7 @@ export default {
     };
   },
   watch: {
-    code: function(newValue) {
+    code: function (newValue) {
       console.log("newValue.length" + newValue.length);
       let tempValue = "";
       for (let i = 0; i < newValue.length; i++) {
@@ -88,4 +54,23 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="stylus">
+.codes {
+  margin-top: 50px;
+
+  input {
+    width: 100px;
+    border: 1px solid #c6c6c6;
+    border-right: none;
+  }
+
+  #first {
+    border-radius: 12px 0 0 12px;
+  }
+
+  #fifth {
+    border-radius: 0 12px 12px 0  ;
+    border-right: 1px solid #c6c6c6;
+  }
+}
+</style>

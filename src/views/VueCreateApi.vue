@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>已经按照api的写法构建，但是一直报错</div>
 </template>
 
 <script>
