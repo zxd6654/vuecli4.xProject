@@ -47,14 +47,20 @@ const routes = [
     name: "VerifyCodeDemo",
     component: () =>
       import(
-        /* webpackChunkName: "verifycode" */ "@/views//VerifyCodeDemo.vue"
+        /* webpackChunkName: "verifycode" */ "@/views/VerifyCodeDemo.vue"
       ),
   },
   {
     path: "/vuepdf",
     name: "VuePdf",
     component: () =>
-      import(/* webpackChunkName: "vuepdf" */ "@/views//VuePdf.vue"),
+      import(/* webpackChunkName: "vuepdf" */ "@/views/VuePdf.vue"),
+  },
+  {
+    path: "/vuecreateapi",
+    name: "VueCreateApi",
+    component: () =>
+      import(/* webpackChunkName: "vuecreateapi" */ "@/views/VueCreateApi.vue"),
   },
 ];
 

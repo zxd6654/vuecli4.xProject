@@ -40,3 +40,6 @@ lib-flexible结合postcss-px2rem-exclude px转换rem
 短信验证码
 
 vue-pdf插件的使用
+(https://www.jianshu.com/p/a640ce9d4882)
+
+vue-create-api
