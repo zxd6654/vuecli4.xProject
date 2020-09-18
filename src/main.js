@@ -48,6 +48,9 @@ let i18n = new VueI18n({
 //vue-create-api
 import "@/createApi/modal";
 
+//上传到npm的自定义插件，
+import zxdToast from 'zxd-vue-toast';
+Vue.use(zxdToast)
 
 Vue.config.productionTip = false;
 

@@ -5,13 +5,22 @@
         v-for="item in $router.options.routes"
         :key="item.name"
         :to="item.path"
-        >{{ item.name }} | </router-link
-      >
+      >{{ item.name }} |</router-link>
     </div>
+    <button @click="openToast">弹出Toast按钮</button>
     <router-view />
   </div>
 </template>
-
+<script>
+export default {
+  name: "App",
+  methods: {
+    openToast() {
+      this.$toast("ZhuXiaodong directive toast plugin", 2000);
+    },
+  },
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
