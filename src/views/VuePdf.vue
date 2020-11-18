@@ -17,7 +17,7 @@
         >下一页<i class="el-icon-arrow-right el-icon--right"></i
       ></el-button>
     </el-button-group>
-    <div style="marginTop: 10px; color: #409EFF">
+    <div style="margin-top: 10px; color: #409EFF">
       {{ pageNum }} / {{ pageTotalNum }}
     </div>
     <pdf
